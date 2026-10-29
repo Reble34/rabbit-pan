@@ -24,7 +24,7 @@
 
 ## 技术栈
 
-- **前端**：Vue 3 + Vite 5 + Element Plus（按需引入）+ Pinia + axios，macOS 液态玻璃风格 UI（`LiquidBackground` 动态背景 + 三级玻璃材质）
+- **前端**：Vue 3 + Vite 5 + Element Plus（按需引入）+ Pinia + axios
 - **后端**：Spring Boot 3.2 + Spring Security 6 + MyBatis-Plus + JWT 双令牌 + Knife4j 接口文档
 - **存储**：MySQL 8.0（Flyway 迁移）+ Redis 7（短链/登录态/分片状态/限流）+ MinIO（S3 兼容对象存储）
 - **部署**：Docker Compose 一键编排（Nginx / 前端 / 后端 / MySQL / Redis / MinIO），`restart: always`
