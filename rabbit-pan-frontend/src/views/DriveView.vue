@@ -160,7 +160,8 @@
 /** DriveView 网盘主页：目录浏览/搜索/排序/批量操作/拖拽上传/右键菜单/分享/预览 */
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
+import { ElMessageBox } from 'element-plus/es/components/message-box/index'
 import {
   FolderAdd, Upload, Share, Download, Position, CopyDocument, Delete,
   View, MoreFilled, Grid, Menu, EditPen, FolderOpened, InfoFilled

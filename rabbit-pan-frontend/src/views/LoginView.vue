@@ -61,7 +61,7 @@
 import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { User, Lock, Postcard, Key } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { useUserStore } from '@/stores'
 import LiquidBackground from '@/components/LiquidBackground.vue'
 

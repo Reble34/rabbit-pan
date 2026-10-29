@@ -24,6 +24,12 @@ let blobs = []
 let running = false
 let lowPerf = false
 let t = 0
+let lastTime = 0
+
+/** 渲染缩放：0.5 = 半分辨率，像素量降至 25% */
+const RENDER_SCALE = 0.5
+/** 背景帧率上限 */
+const FRAME_INTERVAL = 1000 / 30
 
 function palette() {
   return appStore.dark ? DARK_COLORS : LIGHT_COLORS
@@ -53,13 +59,15 @@ function setup() {
 function resize() {
   const canvas = canvasRef.value
   if (!canvas) return
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
-  canvas.width = window.innerWidth * dpr
-  canvas.height = window.innerHeight * dpr
-  canvas.style.width = window.innerWidth + 'px'
-  canvas.style.height = window.innerHeight + 'px'
+  const w = window.innerWidth
+  const h = window.innerHeight
+  // 半分辨率渲染：背景是大面积模糊渐变，缩放后视觉无差别，但着色像素减少 75%
+  canvas.width = Math.max(1, Math.round(w * RENDER_SCALE))
+  canvas.height = Math.max(1, Math.round(h * RENDER_SCALE))
+  canvas.style.width = w + 'px'
+  canvas.style.height = h + 'px'
   if (ctx) {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.setTransform(RENDER_SCALE, 0, 0, RENDER_SCALE, 0, 0)
   }
 }
 
@@ -86,11 +94,16 @@ function drawFrame() {
   ctx.globalCompositeOperation = 'source-over'
 }
 
-function loop() {
+function loop(now) {
   if (!running) return
-  t += 16.7
-  drawFrame()
   rafId = requestAnimationFrame(loop)
+  if (!lastTime) lastTime = now
+  const delta = now - lastTime
+  // 限制 30fps：背景是慢速流动，30fps 足够，GPU/CPU 占用约减半
+  if (delta < FRAME_INTERVAL) return
+  lastTime = now
+  t += delta
+  drawFrame()
 }
 
 function start() {
@@ -104,6 +117,7 @@ function start() {
 
 function stop() {
   running = false
+  lastTime = 0
   cancelAnimationFrame(rafId)
 }
 

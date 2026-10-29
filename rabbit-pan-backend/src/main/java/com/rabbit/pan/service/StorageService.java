@@ -26,15 +26,9 @@ public class StorageService {
     private final FileInfoMapper fileInfoMapper;
     private final ConfigService configService;
 
-    /** 统计用户已用容量（字节，仅统计正常状态文件） */
+    /** 统计用户已用容量（字节，仅统计正常状态文件；SQL 聚合） */
     public long usedBytes(Long userId) {
-        LambdaQueryWrapper<FileInfo> wrapper = new LambdaQueryWrapper<FileInfo>()
-                .eq(FileInfo::getUserId, userId)
-                .eq(FileInfo::getStatus, Constants.FILE_STATUS_NORMAL)
-                .eq(FileInfo::getIsDir, false);
-        Long used = fileInfoMapper.selectList(wrapper)
-                .stream().mapToLong(f -> f.getSize() == null ? 0L : f.getSize()).sum();
-        return used == 0 ? 0L : used;
+        return fileInfoMapper.sumSizeByUser(userId);
     }
 
     /** 用户文件总数 */
@@ -50,14 +44,9 @@ public class StorageService {
         return configService.getInt(ConfigService.KEY_TOTAL_STORAGE_GB, 30) * 1024L * 1024 * 1024;
     }
 
-    /** 系统已用容量（字节，全用户正常文件之和） */
+    /** 系统已用容量（字节，全用户正常文件之和；SQL 聚合） */
     public long systemUsedBytes() {
-        Long used = fileInfoMapper.selectList(new LambdaQueryWrapper<FileInfo>()
-                        .eq(FileInfo::getStatus, Constants.FILE_STATUS_NORMAL)
-                        .eq(FileInfo::getIsDir, false)
-                        .select(FileInfo::getSize))
-                .stream().mapToLong(f -> f.getSize() == null ? 0L : f.getSize()).sum();
-        return used == 0 ? 0L : used;
+        return fileInfoMapper.sumSizeAll();
     }
 
     /**

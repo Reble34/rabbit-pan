@@ -98,7 +98,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { View, Download } from '@element-plus/icons-vue'
 import { shareApi } from '@/api/share'
 import { formatSize, formatTime, typeMeta, isDir } from '@/utils/format'

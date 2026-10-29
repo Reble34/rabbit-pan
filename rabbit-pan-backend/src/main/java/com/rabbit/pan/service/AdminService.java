@@ -28,7 +28,9 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -61,6 +63,15 @@ public class AdminService {
         }
         wrapper.orderByAsc(SysUser::getId);
         Page<SysUser> page = sysUserMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
+        // 一次分组聚合拿到本页所有用户的已用容量，避免逐用户查询（N+1）
+        Map<Long, Long> usedMap = new HashMap<>();
+        for (Map<String, Object> row : fileInfoMapper.sumSizeGroupByUser()) {
+            Object uid = row.get("userId");
+            Object total = row.get("total");
+            if (uid instanceof Number u && total instanceof Number totalBytes) {
+                usedMap.put(u.longValue(), totalBytes.longValue());
+            }
+        }
         Page<UserVO> result = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         result.setRecords(page.getRecords().stream().map(u -> {
             UserVO vo = new UserVO();
@@ -71,7 +82,7 @@ public class AdminService {
             vo.setRole(u.getRole());
             vo.setStatus(u.getStatus());
             vo.setStorageTotal(u.getStorageTotal());
-            vo.setStorageUsed(storageService.usedBytes(u.getId()));
+            vo.setStorageUsed(usedMap.getOrDefault(u.getId(), 0L));
             return vo;
         }).toList());
         return result;
@@ -192,12 +203,8 @@ public class AdminService {
         vo.setFileCount(fileInfoMapper.selectCount(new LambdaQueryWrapper<FileInfo>()
                 .eq(FileInfo::getIsDir, false)
                 .eq(FileInfo::getStatus, Constants.FILE_STATUS_NORMAL)));
-        List<FileInfo> files = fileInfoMapper.selectList(new LambdaQueryWrapper<FileInfo>()
-                .eq(FileInfo::getIsDir, false)
-                .eq(FileInfo::getStatus, Constants.FILE_STATUS_NORMAL)
-                .select(FileInfo::getSize));
-        vo.setStorageUsed(files.stream().mapToLong(f -> f.getSize() == null ? 0 : f.getSize()).sum());
-        // 系统总存储空间（全用户共享上限）
+        // SQL 聚合：不再把全表文件行读入 JVM
+        vo.setStorageUsed(fileInfoMapper.sumSizeAll());
         vo.setStorageTotal(storageService.systemTotalBytes());
         Date todayStart = startOfToday();
         vo.setTodayOpCount(opLogMapper.selectCount(new LambdaQueryWrapper<OpLog>()

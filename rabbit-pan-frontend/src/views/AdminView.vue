@@ -221,7 +221,7 @@
 <script setup>
 /** AdminView 管理后台：统计 / 用户管理 / 系统配置 / 全局文件检索 */
 import { computed, onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { Search, Plus, Delete, Coin } from '@element-plus/icons-vue'
 import { adminApi } from '@/api/admin'
 import { useUserStore } from '@/stores'

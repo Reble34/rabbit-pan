@@ -82,7 +82,7 @@
 <script setup>
 /** ProfileView 个人中心：存储用量 / 头像昵称 / 密码 / 操作日志 */
 import { onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { Upload } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { authApi } from '@/api/auth'

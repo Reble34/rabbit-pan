@@ -61,7 +61,7 @@
 <script setup>
 /** ShareDialog 分享弹窗：有效期 / 提取码 / 权限 / 12 位短链一键复制 */
 import { computed, reactive, ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { shareApi } from '@/api/share'
 import { typeMeta, formatSize, isDir } from '@/utils/format'
 

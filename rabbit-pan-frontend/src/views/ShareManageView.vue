@@ -82,7 +82,7 @@
 <script setup>
 /** ShareManageView 我的分享：访问统计 / 复制 / 续期改码 / 撤销 */
 import { onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { EditPen, CircleClose, CopyDocument } from '@element-plus/icons-vue'
 import { shareApi } from '@/api/share'
 import { formatTime, isDir, typeMeta } from '@/utils/format'

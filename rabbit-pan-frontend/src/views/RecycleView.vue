@@ -61,7 +61,8 @@
 <script setup>
 /** RecycleView 回收站：恢复 / 永久删除 / 清空 */
 import { computed, onMounted, ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
+import { ElMessageBox } from 'element-plus/es/components/message-box/index'
 import { Search, RefreshLeft, Delete, DeleteFilled } from '@element-plus/icons-vue'
 import { recycleApi } from '@/api/admin'
 import { formatSize, formatTime, typeMeta, isDir } from '@/utils/format'

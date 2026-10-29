@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
-
+import { ElMessage } from 'element-plus/es/components/message/index'
 /** 统一 axios 实例：baseURL /api/v1，自动携带 Bearer Token，401 自动用 refreshToken 续期重放 */
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_BASE || '/api/v1',

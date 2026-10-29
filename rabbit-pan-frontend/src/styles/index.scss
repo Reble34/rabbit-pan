@@ -18,13 +18,13 @@
 
   /* ===== 一级玻璃：导航/侧栏/模态 ===== */
   --rp-glass-1-bg: rgba(255, 255, 255, 0.12);
-  --rp-glass-1-blur: blur(24px) saturate(180%);
+  --rp-glass-1-blur: blur(14px) saturate(160%);
   /* ===== 二级玻璃：卡片/输入框/按钮 ===== */
   --rp-glass-2-bg: rgba(255, 255, 255, 0.08);
-  --rp-glass-2-blur: blur(16px) saturate(160%);
+  --rp-glass-2-blur: blur(10px) saturate(150%);
   /* ===== 三级玻璃：Toast/右键菜单 ===== */
   --rp-glass-3-bg: rgba(255, 255, 255, 0.06);
-  --rp-glass-3-blur: blur(12px) saturate(150%);
+  --rp-glass-3-blur: blur(8px) saturate(140%);
 
   --rp-glass-border: rgba(255, 255, 255, 0.28);
   --rp-glass-border-soft: rgba(255, 255, 255, 0.18);
@@ -94,14 +94,12 @@ html.dark body {
   backdrop-filter: var(--rp-glass-2-blur);
   border: 1px solid var(--rp-glass-border-soft);
   box-shadow: var(--rp-glass-shadow);
-  transform: translateZ(0);
 }
 
 .glass-3 {
   background: var(--rp-glass-3-bg);
   -webkit-backdrop-filter: var(--rp-glass-3-blur);
   backdrop-filter: var(--rp-glass-3-blur);
-  transform: translateZ(0);
 }
 
 /* ==================== Element Plus 液态玻璃化覆盖 ==================== */
@@ -118,8 +116,6 @@ html.dark body {
   --el-button-hover-bg-color: rgba(10, 132, 255, 0.28);
   --el-button-hover-border-color: var(--rp-primary);
   --el-button-hover-text-color: var(--rp-primary);
-  -webkit-backdrop-filter: var(--rp-glass-2-blur);
-  backdrop-filter: var(--rp-glass-2-blur);
   font-weight: 600;
 }
 .el-button--primary:active {

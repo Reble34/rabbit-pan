@@ -70,7 +70,7 @@
 import { computed, ref, watch } from 'vue'
 import axios from 'axios'
 import DOMPurify from 'dompurify'
-import { ElMessage } from 'element-plus'
+import { ElMessage } from 'element-plus/es/components/message/index'
 import { marked } from 'marked'
 import { previewUrl } from '@/api/file'
 import { typeMeta, formatSize } from '@/utils/format'
