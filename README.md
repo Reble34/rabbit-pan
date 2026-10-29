@@ -1,6 +1,6 @@
 # Rabbit 网盘（Rabbit Pan）
 
-企业级私有云盘系统 —— 类 iCloud Drive / 百度网盘私有化部署版。前后端分离，Docker Compose 一键部署。
+私有云盘系统 前后端分离，Docker Compose 一键部署。
 
 ![技术栈](https://img.shields.io/badge/Vue3-Element%20Plus-0a84ff)
 
