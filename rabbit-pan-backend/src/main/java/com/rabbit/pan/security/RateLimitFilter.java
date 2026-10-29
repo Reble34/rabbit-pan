@@ -2,6 +2,7 @@ package com.rabbit.pan.security;
 
 import com.rabbit.pan.common.Constants;
 import com.rabbit.pan.service.RedisService;
+import com.rabbit.pan.util.IpUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

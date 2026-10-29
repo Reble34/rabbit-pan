@@ -1,6 +1,7 @@
 package com.rabbit.pan.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rabbit.pan.common.BizException;
 import com.rabbit.pan.common.Constants;
@@ -29,8 +30,11 @@ import java.util.*;
 public class FileService {
 
     /** 允许的排序字段白名单 */
-    private static final Map<String, String> SORT_COLUMNS = Map.of(
-            "fileName", "file_name", "size", "size", "updateTime", "update_time", "createTime", "create_time");
+    private static final Map<String, SFunction<FileInfo, ?>> SORT_COLUMNS = Map.of(
+            "fileName", FileInfo::getFileName,
+            "size", FileInfo::getSize,
+            "updateTime", FileInfo::getUpdateTime,
+            "createTime", FileInfo::getCreateTime);
 
     private final FileInfoMapper fileInfoMapper;
 
@@ -65,9 +69,10 @@ public class FileService {
             wrapper.eq(FileInfo::getParentId, parentId == null ? 0L : parentId);
         }
         // 排序（白名单防注入）：文件夹始终排在文件前面
-        String column = SORT_COLUMNS.getOrDefault(sortField, "update_time");
+        SFunction<FileInfo, ?> column = sortField == null ? FileInfo::getUpdateTime
+                : SORT_COLUMNS.getOrDefault(sortField, FileInfo::getUpdateTime);
         boolean asc = "asc".equalsIgnoreCase(sortOrder);
-        wrapper.orderByDesc("is_dir");
+        wrapper.orderByDesc(FileInfo::getIsDir);
         if (asc) {
             wrapper.orderByAsc(column);
         } else {

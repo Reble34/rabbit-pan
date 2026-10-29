@@ -73,7 +73,4 @@ public final class Constants {
     public static final String MINIO_DIR_ZIP = "tmp/zip/";
     public static final String MINIO_DIR_THUMB = "thumbs/";
     public static final String MINIO_DIR_AVATAR = "avatar/";
-
-    private Constants() {
-    }
 }

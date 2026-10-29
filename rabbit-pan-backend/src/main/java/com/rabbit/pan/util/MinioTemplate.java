@@ -5,7 +5,7 @@ import com.rabbit.pan.config.MinioConfig;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.Item;
-import io.minio.messages.RemoveObject;
+import io.minio.messages.DeleteObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -122,8 +122,8 @@ public class MinioTemplate {
             return;
         }
         try {
-            List<RemoveObject> objects = objectKeys.stream()
-                    .map(RemoveObject::new).toList();
+            List<DeleteObject> objects = objectKeys.stream()
+                    .map(DeleteObject::new).toList();
             Iterable<io.minio.Result<DeleteError>> results = minioClient.removeObjects(
                     RemoveObjectsArgs.builder()
                             .bucket(properties.getBucket())

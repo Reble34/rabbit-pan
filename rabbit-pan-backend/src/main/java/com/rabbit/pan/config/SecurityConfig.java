@@ -19,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -72,10 +73,10 @@ public class SecurityConfig {
                         .frameOptions(f -> f.sameOrigin())
                         // 防 MIME 嗅探：媒体响应按声明类型处理，杜绝 SVG/HTML 内容嗅探执行
                         .contentTypeOptions(Customizer.withDefaults()))
-                // 过滤器顺序：requestId -> 限流 -> JWT
-                .addFilterBefore(requestIdFilter, RateLimitFilter.class)
-                .addFilterBefore(rateLimitFilter, JwtAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, JwtAuthenticationFilter.class);
+                // 过滤器顺序：requestId -> 限流 -> JWT（锚点必须是 Security 内置过滤器，否则 no registered order）
+                .addFilterBefore(requestIdFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
