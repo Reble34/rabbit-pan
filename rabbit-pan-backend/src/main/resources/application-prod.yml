@@ -1,0 +1,41 @@
+# ===== 生产环境：全部由环境变量注入，禁止硬编码 =====
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:mysql}:${DB_PORT:3306}/${DB_NAME:rabbit_pan}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USER:rabbit}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      database: 0
+      timeout: 5s
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://minio:9000}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
+  bucket: ${MINIO_BUCKET:rabbit-pan}
+
+logging:
+  level:
+    com.rabbit.pan: info
+    root: info
+
+# 生产环境关闭接口文档（防接口结构暴露）
+knife4j:
+  enable: false
+  production: true
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

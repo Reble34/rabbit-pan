@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.local
+.env
+auto-imports.d.ts
+components.d.ts
+.idea/
+.vscode/
+*.log

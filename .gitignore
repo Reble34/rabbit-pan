@@ -1,0 +1,17 @@
+# Rabbit 网盘根目录
+.env
+*.local
+
+# 依赖与构建产物
+node_modules/
+dist/
+target/
+
+# 归档与临时
+*.zip
+*.rar
+
+# IDE
+.idea/
+.vscode/
+*.iml
